@@ -1,11 +1,12 @@
 import { network } from "hardhat"
-import {
-    developmentChains,
-    DECIMALS,
-    INITIAL_ANSWER,
-} from "../herlper-hardhat-config"
+import { DeployFunction } from "hardhat-deploy/dist/types"
+import { HardhatRuntimeEnvironment } from "hardhat/types"
 
-module.exports = async ({ getNamedAccounts, deployments }) => {
+const DECIMALS = "18"
+const INITIAL_PRICE = "2000000000000000000000" // 2000
+
+const deployMock: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
+    const { deployments, getNamedAccounts, network } = hre
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
@@ -16,11 +17,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             contract: "MockV3Aggregator",
             from: deployer,
             log: true,
-            args: [DECIMALS, INITIAL_ANSWER],
+            args: [DECIMALS, INITIAL_PRICE],
         })
         log("Mocks deployed!")
         log("------------------------------------------")
     }
 }
 
-module.exports.tags = ["all", "mocks"]
+export default deployMock
+
+deployMock.tags = ["all", "mocks"]

@@ -19,4 +19,4 @@ const verify = async (contractAddress: string, args: []) => {
     }
 }
 
-module.exports = { verify }
+export default verify

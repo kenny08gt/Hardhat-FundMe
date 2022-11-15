@@ -20,7 +20,6 @@ const config: HardhatUserConfig & NetworkUserConfig = {
             url: GOERLI_RPC_URL,
             accounts: [PRIVATE_KEY],
             chainId: 5,
-            blockConfirmations: 6,
             gasPrice: 1625502308,
         },
         localhost: {

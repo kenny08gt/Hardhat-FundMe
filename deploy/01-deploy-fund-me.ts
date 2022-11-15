@@ -1,8 +1,16 @@
 import { verify } from "../utils/verify"
 import { network } from "hardhat"
-import { networkConfig, developmentChain } from "../herlper-hardhat-config"
+import {
+    networkConfig,
+    developmentChain,
+    BLOCK_CONFIRMATIONS,
+} from "../herlper-hardhat-config"
+import { DeployFunction } from "hardhat-deploy/dist/types"
 
-export default async ({ getNamedAccounts, deployments }) => {
+const deployFundMe: DeployFunction = async ({
+    getNamedAccounts,
+    deployments,
+}) => {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId: number = network.config.chainId!
@@ -18,10 +26,11 @@ export default async ({ getNamedAccounts, deployments }) => {
     const args = [ethUsdPriceFeed]
 
     const fundMe = await deploy("FundMe", {
+        contract: "FundMe",
         from: deployer,
         args: args, // put price feed address
         log: true,
-        waitConfirmations: network.config.blockConfirmations || 1,
+        waitConfirmations: BLOCK_CONFIRMATIONS || 0,
     })
 
     log("------------------------------------------")
@@ -34,4 +43,6 @@ export default async ({ getNamedAccounts, deployments }) => {
     }
 }
 
-module.exports.tags = ["all", "fundme"]
+export default deployFundMe
+
+deployFundMe.tags = ["all", "fundMe"]
