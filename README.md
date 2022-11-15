@@ -1,13 +1,14 @@
-# Sample Hardhat Project
+# Hardhat fund me
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Project that I made taking the great course of @freecodecamp, "Learn Blockchain, Solidity, and Full Stack Web3 Development with JavaScript".
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+Learn and practice about:
+* Scripting
+* Testing
+  * Unit
+  * Staging
+* Gas Optimization
+* Storage usage
+* Code guideliness
+* Multichain deployment
+* Typescript
