@@ -21,7 +21,7 @@ describe("FundMe", function () {
 
     describe("constructor", function () {
         it("sets the aggregator addresses correctly", async function () {
-            const response = await fundMe.priceFeed()
+            const response = await fundMe.getPriceFeed()
             assert.equal(response, mockV3Aggregator.address)
         })
     })
@@ -35,16 +35,16 @@ describe("FundMe", function () {
 
         it("Updated the amount funded ta structure", async () => {
             await fundMe.fund({ value: sendValue })
-            const response = await fundMe.addressToAmountFunded(
+            const response = await fundMe.getAddressToAmountFunded(
                 deployer.address
             )
 
             assert.equal(response.toString(), sendValue.toString())
         })
 
-        it("Adds funder to array of funders", async () => {
+        it("Adds funder to array of getFunder", async () => {
             await fundMe.fund({ value: sendValue })
-            const funder = await fundMe.funders(0)
+            const funder = await fundMe.getFunder(0)
             assert.equal(funder, deployer.address)
         })
     })
@@ -85,7 +85,7 @@ describe("FundMe", function () {
             )
         })
 
-        it("Allows us to withdraw with multiple funders", async function () {
+        it("Allows us to withdraw with multiple getFunder", async function () {
             //arrange
             const accounts = await ethers.getSigners()
             for (let i = 1; i < 6; i++) {
@@ -124,13 +124,15 @@ describe("FundMe", function () {
                 endingDeployerBalance.add(gasCost).toString()
             )
 
-            // Make sure the funders are reset properly
-            await expect(fundMe.funders(0)).to.be.reverted
+            // Make sure the getFunder are reset properly
+            await expect(fundMe.getFunder(0)).to.be.reverted
 
             for (let i = 1; i < 6; i++) {
                 assert.equal(
                     (
-                        await fundMe.addressToAmountFunded(accounts[i].address)
+                        await fundMe.getAddressToAmountFunded(
+                            accounts[i].address
+                        )
                     ).toString(),
                     "0"
                 )
@@ -147,7 +149,7 @@ describe("FundMe", function () {
     })
 
     describe("getVersion", function () {
-        it("Should get the version of the priceFeed", async () => {
+        it("Should get the version of the getPriceFeed", async () => {
             const version = await fundMe.getVersion()
             assert.equal(version.toString(), "0")
         })
