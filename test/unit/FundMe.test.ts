@@ -145,4 +145,33 @@ describe("FundMe", function () {
             await expect(attackerConnectedContract.withdraw()).to.be.reverted
         })
     })
+
+    describe("getVersion", function () {
+        it("Should get the version of the priceFeed", async () => {
+            const version = await fundMe.getVersion()
+            assert.equal(version.toString(), "0")
+        })
+    })
+
+    describe("fallback", function () {
+        it("Test fallback function", async () => {
+            const tx = deployer.sendTransaction({
+                to: fundMe.address,
+                data: "0x",
+                gasLimit: 30000000,
+            })
+
+            await expect(tx).to.revertedWith("You need to spend more ETH!")
+        })
+    })
+
+    describe("receive", function () {
+        it("Test receive function", async () => {
+            await expect(
+                fundMe.fund({
+                    value: "1000",
+                })
+            ).to.revertedWith("You need to spend more ETH!")
+        })
+    })
 })
